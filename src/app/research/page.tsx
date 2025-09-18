@@ -1,7 +1,6 @@
 'use client'
 
 import PublicationCard from '@/components/research/PublicationCard'
-import ResearchStats from '@/components/research/ResearchStats'
 import publicationsData from '@/data/publications.json'
 import { useEffect, useState } from 'react'
 
