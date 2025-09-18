@@ -13,8 +13,8 @@ export interface TeamMember {
 export const teamMembers: TeamMember[] = [
   {
     id: 'benjamin-davidson',
-    name: 'Benjamin Davidson',
-    title: 'Principal Investigator',
+    name: 'Dr. Benjamin Davidson, MD, PhD, FRCSC',
+    title: 'Functional Neurosurgeon & Principal Investigator',
     imageUrl: '/images/team/benjamin-davidson.webp',
     category: 'leadership',
     bio: 'Benjamin Davidson (MD, PhD) is a functional neurosurgeon starting on staff at Sunnybrook Hospital, Toronto. His interests include lesional and DBS treatment of movement disorders, pain, and psychiatric disease, and the use of advanced neuroimaging to help uncover predictors, biomarkers, and mechanisms of response. He has published extensively on MRgFUS capsulotomy in MDD and OCD, as well as the use of DBS to treatment alcohol use disorder. He\'s keen to discuss ways to improve how we select patients, measure outcomes, and interrogate neurocircuits.',

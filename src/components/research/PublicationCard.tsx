@@ -27,10 +27,27 @@ export default function PublicationCard({ publication }: PublicationCardProps) {
   const [isExpanded, setIsExpanded] = useState(false)
 
   const formatAuthors = (authors: string[]) => {
-    if (authors.length > 3) {
-      return `${authors.slice(0, 3).join(', ')}, et al.`
-    }
-    return authors.join(', ')
+    const displayAuthors = authors.length > 3 ? [...authors.slice(0, 3), 'et al.'] : authors
+    
+    return displayAuthors.map((author, index) => {
+      const isBenjaminDavidson = author.toLowerCase().includes('davidson') && (
+        author.toLowerCase().includes('benjamin') || 
+        author.toLowerCase().includes('b.') ||
+        author.toLowerCase().includes('b ')
+      )
+      const isLast = index === displayAuthors.length - 1
+      
+      return (
+        <span key={index}>
+          <span 
+            className={isBenjaminDavidson ? 'text-[rgb(118,183,71)] font-medium' : ''}
+          >
+            {author}
+          </span>
+          {!isLast && ', '}
+        </span>
+      )
+    })
   }
 
   const getTypeColor = (type: string) => {
@@ -47,16 +64,23 @@ export default function PublicationCard({ publication }: PublicationCardProps) {
   }
 
   return (
-    <div className="glass-card rounded-2xl p-6 hover:shadow-xl transition-all duration-300 group">
+    <div className="glass-card rounded-2xl p-6 hover:shadow-xl transition-all duration-300 group relative">
       {/* Header with Type and Date */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
           <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getTypeColor(publication.type)}`}>
             {publication.type}
           </span>
-          <span className="text-sm text-gray-500">
-            {publication.month} {publication.year}
-          </span>
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-gray-500">
+              {publication.month} {publication.year}
+            </span>
+            {publication.journal && (
+              <span className="text-sm text-black italic">
+                {publication.journal}
+              </span>
+            )}
+          </div>
         </div>
       </div>
 
@@ -66,48 +90,32 @@ export default function PublicationCard({ publication }: PublicationCardProps) {
       </h3>
 
       {/* Authors */}
-      <p className="text-sm text-gray-600 mb-2">
+      <p className="text-sm text-gray-600 mb-12">
         {formatAuthors(publication.authors)}
       </p>
 
-      {/* Journal */}
-      {publication.journal && (
-        <p className="text-sm text-blue-600 italic mb-4">
-          {publication.journal}
-        </p>
+      {/* Abstract Button - positioned at bottom left, only show when not expanded */}
+      {!isExpanded && (
+        <div className="absolute bottom-6 left-6">
+          <button
+            onClick={() => setIsExpanded(true)}
+            className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
+          >
+            <ChevronDownIcon className="w-4 h-4" />
+            Abstract
+          </button>
+        </div>
       )}
 
       {/* Expandable Content */}
-      {publication.abstract && (
-        <div>
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors mb-3"
-          >
-            {isExpanded ? (
-              <>
-                <ChevronUpIcon className="w-4 h-4" />
-                Show Less
-              </>
-            ) : (
-              <>
-                <ChevronDownIcon className="w-4 h-4" />
-                Abstract
-              </>
-            )}
-          </button>
-
-          {isExpanded && (
-            <div className="space-y-4 animate-fadeIn">
-              {/* Abstract */}
-              {publication.abstract && (
-                <div>
-                  <p className="text-sm text-gray-700 leading-relaxed">
-                    {publication.abstract}
-                  </p>
-                </div>
-              )}
-
+      {isExpanded && (
+        <div className="animate-fadeIn">
+          {/* Abstract */}
+          {publication.abstract && (
+            <div>
+              <p className="text-sm text-gray-700 leading-relaxed">
+                {publication.abstract}
+              </p>
             </div>
           )}
         </div>

@@ -8,6 +8,8 @@ export default function Home() {
   const [mounted, setMounted] = useState(false)
   const [heroVisible, setHeroVisible] = useState(false)
   const [missionVisible, setMissionVisible] = useState(false)
+  const [missionImageShown, setMissionImageShown] = useState(false)
+  const [missionTextShown, setMissionTextShown] = useState(false)
   
   const heroRef = useRef<HTMLDivElement>(null)
   const missionRef = useRef<HTMLDivElement>(null)
@@ -21,6 +23,9 @@ export default function Home() {
         entries.forEach((entry) => {
           if (entry.target === missionRef.current && entry.isIntersecting) {
             setMissionVisible(true)
+            // Sequential animation: image first, then fade, then text (50% faster)
+            setTimeout(() => setMissionImageShown(true), 100)
+            setTimeout(() => setMissionTextShown(true), 1250)
           }
         })
       },
@@ -53,28 +58,86 @@ export default function Home() {
       </div>
 
       {/* About Section */}
-      <section ref={missionRef} className="relative z-10 min-h-screen flex items-center snap-section">
-        <div className="max-w-7xl mx-auto w-full px-8 md:px-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
-            {/* Left Column - Heading */}
-            <div className={`flex items-center justify-center h-full ${mounted && missionVisible ? 'animate-slideInLeft' : 'opacity-0 translate-x-[-50px]'}`}>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-arial-nova font-bold leading-tight text-center">
-                <span className="gradient-text-grey">Our Mission</span>
-              </h2>
+      <section ref={missionRef} className="relative z-10 min-h-screen flex items-center snap-section overflow-hidden bg-gradient-to-br from-gray-50 to-white">
+        <div className="absolute inset-0 flex">
+          {/* Image Container - Starts full width, then shrinks to left half */}
+          <div 
+            className={`absolute inset-y-0 left-0 transition-all ease-out ${
+              missionImageShown 
+                ? (missionTextShown ? 'w-1/2' : 'w-full') 
+                : 'w-full'
+            }`}
+            style={{
+              transitionDuration: '1250ms',
+              transitionDelay: missionTextShown ? '0ms' : '0ms'
+            }}
+          >
+            <div 
+              className={`relative w-full h-full transition-all ${
+                missionImageShown ? 'opacity-100' : 'opacity-0'
+              }`}
+              style={{
+                backgroundImage: 'url("/ghbc-banner.jpg")',
+                backgroundSize: 'cover',
+                backgroundPosition: missionTextShown ? '20% center' : 'center',
+                backgroundRepeat: 'no-repeat',
+                transitionDuration: '1250ms'
+              }}
+            >
+              {/* Gradient overlay - completely transparent */}
+              <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-transparent transition-opacity duration-2000 ${
+                missionTextShown ? 'opacity-100' : 'opacity-0'
+              }`} />
             </div>
+          </div>
+          
+          {/* Gradient background for right side */}
+          <div 
+            className={`absolute inset-y-0 right-0 bg-gradient-to-br from-gray-50 to-white transition-all ease-out ${
+              missionTextShown ? 'w-1/2' : 'w-0'
+            }`}
+            style={{
+              transitionDuration: '2500ms'
+            }}
+          />
+        </div>
+        
+        {/* Content Layer */}
+        <div className="relative z-10 w-full">
+          <div className={`grid grid-cols-1 ${missionTextShown ? 'lg:grid-cols-2' : ''} transition-all duration-1250`}>
+            {/* Left side - Empty space for image */}
+            <div className={`${missionTextShown ? 'block' : 'hidden'}`} />
             
-            {/* Right Column - Description */}
-            <div className={`space-y-6 ${mounted && missionVisible ? 'animate-slideInRight' : 'opacity-0 translate-x-[50px]'}`}>
-              <p className={`text-lg md:text-xl text-gray-700 leading-relaxed font-arial-nova ${mounted && missionVisible ? 'animate-fadeInUp' : 'opacity-0'}`} style={mounted && missionVisible ? { animationDelay: '0.2s' } : {}}>
-                Our research focuses on developing innovative neurosurgical interventions 
-                for treatment-resistant psychiatric disorders. We combine cutting-edge 
-                neurotechnology with precision psychiatry to restore function and improve 
-                quality of life.
-              </p>
-              <p className={`text-lg md:text-xl text-gray-700 leading-relaxed font-arial-nova ${mounted && missionVisible ? 'animate-fadeInUp' : 'opacity-0'}`} style={mounted && missionVisible ? { animationDelay: '0.4s' } : {}}>
-                Our research aims to help those with unmet medical needs and 
-                unlock new understanding of the mind through precise neurosurgical therapies.
-              </p>
+            {/* Right side - Text Content */}
+            <div className={`flex items-center justify-center px-8 md:px-12 lg:px-16 transition-all duration-700 ${
+              missionTextShown ? 'opacity-100' : 'opacity-0'
+            }`}>
+              <div className="max-w-xl">
+                {/* Heading */}
+                <h2 className={`text-4xl md:text-5xl lg:text-6xl font-arial-nova font-bold mb-8 transition-all duration-700 delay-300 ${
+                  missionTextShown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                }`}>
+                  <span className="gradient-text-grey">Our Mission</span>
+                </h2>
+                
+                {/* Description */}
+                <div className="space-y-6">
+                  <p className={`text-lg md:text-xl text-gray-700 leading-relaxed font-arial-nova transition-all duration-700 delay-400 ${
+                    missionTextShown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                  }`}>
+                    Our research focuses on developing innovative neurosurgical interventions 
+                    for treatment-resistant psychiatric disorders. We combine cutting-edge 
+                    neurotechnology with precision psychiatry to restore function and improve 
+                    quality of life.
+                  </p>
+                  <p className={`text-lg md:text-xl text-gray-700 leading-relaxed font-arial-nova transition-all duration-700 delay-500 ${
+                    missionTextShown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                  }`}>
+                    We hope to help those with unmet medical needs and 
+                    unlock new understanding of the mind through precise neurosurgical therapies.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

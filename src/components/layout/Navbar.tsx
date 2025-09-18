@@ -9,10 +9,10 @@ export default function Navbar() {
   const isActive = (path: string) => pathname === path
   
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[100] bg-transparent">
-      <div className="flex items-center justify-between px-8 py-4 relative z-10">
+    <nav className="fixed top-4 left-4 right-4 z-[100] bg-white/20 backdrop-blur-md border border-white/10 shadow-md rounded-full">
+      <div className="flex items-center justify-between px-6 py-2 relative z-10">
         <div className="flex items-center space-x-8 relative z-10">
-          <Link href="/" className="relative h-12 w-12 hover:scale-110 transition-transform duration-300 mr-4">
+          <Link href="/" className="relative h-8 w-8 hover:scale-110 transition-transform duration-300 mr-4">
             <Image
               src="/davidson-lab-logo-icon.png"
               alt="Davidson Lab"
@@ -64,10 +64,10 @@ export default function Navbar() {
           href="https://research.sunnybrook.ca/research/centres/harquail-centre-for-neuromodulation/"
           target="_blank"
           rel="noopener noreferrer"
-          className="relative h-24 w-72 hover:scale-105 transition-transform duration-300"
+          className="relative h-12 w-36 hover:scale-105 transition-transform duration-300"
         >
           <Image
-            src="/sunnybrook-logo.webp"
+            src="/sunnybrook-logo-new.png"
             alt="Harquail Centre for Neuromodulation"
             fill
             className="object-contain"

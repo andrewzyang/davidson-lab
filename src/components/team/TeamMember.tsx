@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import PlaceholderImage from './PlaceholderImage'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 interface TeamMemberProps {
   name: string
@@ -15,15 +15,64 @@ interface TeamMemberProps {
 export default function TeamMember({ name, title, imageUrl, bio, altText }: TeamMemberProps) {
   const [imageError, setImageError] = useState(false)
   const [showBio, setShowBio] = useState(false)
+  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+  const cardRef = useRef<HTMLDivElement>(null)
   const useRealImage = imageUrl.startsWith('http') || imageUrl.includes('.')
+  
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return
+    const rect = cardRef.current.getBoundingClientRect()
+    const x = (e.clientX - rect.left) / rect.width
+    const y = (e.clientY - rect.top) / rect.height
+    setTilt({
+      x: (y - 0.5) * -5, // Tilt on X-axis based on vertical position (reduced by 50%)
+      y: (x - 0.5) * 5   // Tilt on Y-axis based on horizontal position (reduced by 50%)
+    })
+  }
+
+  const handleMouseLeave = () => {
+    setShowBio(false)
+    setTilt({ x: 0, y: 0 })
+  }
   
   return (
     <div 
-      className="relative group cursor-pointer"
+      ref={cardRef}
+      className="relative group cursor-pointer transform-gpu transition-all duration-500 hover:scale-[1.025]"
       onMouseEnter={() => setShowBio(true)}
-      onMouseLeave={() => setShowBio(false)}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        transformStyle: 'preserve-3d',
+        perspective: '1000px'
+      }}
     >
-      <div className="aspect-[3/4] relative rounded-2xl overflow-hidden">
+      <div 
+        className="aspect-[3/4] relative rounded-2xl overflow-hidden transition-all duration-500"
+        style={{
+          background: 'linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7))',
+          backdropFilter: 'blur(20px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+          boxShadow: `
+            0 20px 25px -5px rgba(0, 0, 0, 0.1),
+            0 10px 10px -5px rgba(0, 0, 0, 0.04),
+            inset 0 1px 0 0 rgba(255, 255, 255, 0.6),
+            0 0 0 1px rgba(255, 255, 255, 0.18)
+          `,
+          transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateZ(${showBio ? '15px' : '0px'})`,
+          transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
+        }}
+      >
+        {/* Glass reflection overlay */}
+        <div 
+          className="absolute inset-0 pointer-events-none z-10"
+          style={{
+            background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.2) 45%, rgba(255,255,255,0.1) 50%, transparent 55%)',
+            transform: showBio ? 'translateX(100%)' : 'translateX(-100%)',
+            transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
+          }}
+        />
+        
         {!imageError && useRealImage ? (
           <Image
             src={imageUrl}
