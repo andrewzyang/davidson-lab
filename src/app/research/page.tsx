@@ -28,34 +28,9 @@ export default function Research() {
   })
 
   useEffect(() => {
-    // Prevent any hash-based scrolling
-    const preventHashScroll = () => {
-      window.scrollTo(0, 0)
-    }
-    
-    // Clear any hash in the URL that might cause auto-scroll
-    if (window.location.hash) {
-      window.history.replaceState(null, '', window.location.pathname)
-    }
-    
-    // Force scroll to top multiple times to ensure it takes effect
-    window.scrollTo(0, 0)
-    setTimeout(() => window.scrollTo(0, 0), 0)
-    setTimeout(() => window.scrollTo(0, 0), 50)
-    
-    // Listen for any scroll attempts and force back to top briefly
-    window.addEventListener('scroll', preventHashScroll, { once: true })
-    
     setMounted(true)
-    const timer = setTimeout(() => {
-      setVisible(true)
-      window.removeEventListener('scroll', preventHashScroll)
-    }, 100)
-    
-    return () => {
-      clearTimeout(timer)
-      window.removeEventListener('scroll', preventHashScroll)
-    }
+    const timer = setTimeout(() => setVisible(true), 100)
+    return () => clearTimeout(timer)
   }, [])
 
   useEffect(() => {

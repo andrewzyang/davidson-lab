@@ -22,23 +22,21 @@ export default function Navbar() {
     }
   }
   
-  const handleContactClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleContactClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    if (pathname === '/') {
-      // On homepage, scroll to contact section
-      const contactElement = document.querySelector('footer')
-      if (contactElement) {
-        contactElement.scrollIntoView({ behavior: 'smooth' })
-      }
+    
+    // For team and research pages, ensure we scroll to the footer on current page
+    const contactElement = document.getElementById('contact')
+    if (contactElement) {
+      contactElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
     } else {
-      // On other pages, navigate to home and then scroll to contact
-      router.push('/')
+      // Fallback: if element not found, try after a brief delay
       setTimeout(() => {
-        const contactElement = document.querySelector('footer')
-        if (contactElement) {
-          contactElement.scrollIntoView({ behavior: 'smooth' })
+        const delayedElement = document.getElementById('contact')
+        if (delayedElement) {
+          delayedElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
         }
-      }, 500)
+      }, 100)
     }
   }
   
@@ -90,13 +88,12 @@ export default function Navbar() {
           >
             Research
           </Link>
-          <a
-            href="#contact"
+          <button
             onClick={handleContactClick}
             className="px-4 py-2 text-base font-medium text-white bg-gradient-to-r from-gray-500 to-gray-700 rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300"
           >
             Contact
-          </a>
+          </button>
         </div>
         
         {/* Sunnybrook Logo */}
