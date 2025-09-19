@@ -3,12 +3,11 @@
 import TeamMember from '@/components/team/TeamMember'
 import { teamMembers, getTeamByCategory } from '@/data/teamMembers'
 import Footer from '@/components/layout/Footer'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function Team() {
   const [mounted, setMounted] = useState(false)
   const [visible, setVisible] = useState(false)
-  const scrollContainerRef = useRef<HTMLDivElement>(null)
   
   const leadership = getTeamByCategory('leadership')
   const researchers = getTeamByCategory('researchers')
@@ -20,12 +19,8 @@ export default function Team() {
       window.history.replaceState(null, '', window.location.pathname)
     }
     
-    // Scroll to top after a brief delay to ensure DOM is ready
-    setTimeout(() => {
-      if (scrollContainerRef.current) {
-        scrollContainerRef.current.scrollTop = 0
-      }
-    }, 0)
+    // Scroll to top of page
+    window.scrollTo(0, 0)
     
     setMounted(true)
     const timer = setTimeout(() => setVisible(true), 100)
@@ -33,7 +28,7 @@ export default function Team() {
   }, [])
 
   return (
-    <div ref={scrollContainerRef} className="snap-container h-screen overflow-y-scroll absolute inset-0">
+    <div>
       <div className="min-h-screen pt-32 pb-16 px-4 relative z-10">
         <div className="max-w-7xl mx-auto">
         <h1 className={`text-4xl md:text-5xl lg:text-6xl font-arial-nova font-bold leading-tight text-center mb-16 transition-all duration-1000 ${

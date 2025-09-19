@@ -19,7 +19,6 @@ export default function Research() {
   const [visible, setVisible] = useState(false)
   const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set())
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
-  const scrollContainerRef = useRef<HTMLDivElement>(null)
   
   const { researcher, publications } = publicationsData
 
@@ -34,12 +33,8 @@ export default function Research() {
       window.history.replaceState(null, '', window.location.pathname)
     }
     
-    // Scroll to top after a brief delay to ensure DOM is ready
-    setTimeout(() => {
-      if (scrollContainerRef.current) {
-        scrollContainerRef.current.scrollTop = 0
-      }
-    }, 0)
+    // Scroll to top of page
+    window.scrollTo(0, 0)
     
     setMounted(true)
     const timer = setTimeout(() => setVisible(true), 100)
@@ -74,7 +69,7 @@ export default function Research() {
   }, [sortedPublications.length])
 
   return (
-    <div ref={scrollContainerRef} className="snap-container h-screen overflow-y-scroll absolute inset-0">
+    <div>
       <div className="min-h-screen pt-32 pb-16 px-4 relative z-10">
         <div className="max-w-7xl mx-auto">
           {/* Header */}

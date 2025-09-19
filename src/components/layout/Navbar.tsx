@@ -50,36 +50,26 @@ export default function Navbar() {
           >
             About
           </a>
-          <a
+          <Link
             href="/team"
-            onClick={(e) => {
-              e.preventDefault()
-              // Force navigation without hash
-              window.location.href = '/team'
-            }}
             className={`${
               isActive('/team') 
                 ? 'gradient-text' 
                 : 'text-gray-700 hover:text-gray-900'
-            } font-medium text-base tracking-wide transition-all duration-300 hover:scale-105 cursor-pointer`}
+            } font-medium text-base tracking-wide transition-all duration-300 hover:scale-105`}
           >
             Team
-          </a>
-          <a
+          </Link>
+          <Link
             href="/research"
-            onClick={(e) => {
-              e.preventDefault()
-              // Force navigation without hash
-              window.location.href = '/research'
-            }}
             className={`${
               isActive('/research') 
                 ? 'gradient-text' 
                 : 'text-gray-700 hover:text-gray-900'
-            } font-medium text-base tracking-wide transition-all duration-300 hover:scale-105 cursor-pointer`}
+            } font-medium text-base tracking-wide transition-all duration-300 hover:scale-105`}
           >
             Research
-          </a>
+          </Link>
           <a
             href="#contact"
             className="px-4 py-2 text-base font-medium text-white bg-gradient-to-r from-gray-500 to-gray-700 rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300"
