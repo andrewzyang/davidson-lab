@@ -11,6 +11,7 @@ export default function SplineClient() {
     // Only import Spline on client side after mount
     if (typeof window !== 'undefined') {
       import('@splinetool/react-spline').then((mod) => {
+        console.log('Spline module loaded:', mod)
         setSplineComponent(() => mod.default)
       }).catch(err => {
         console.error('Failed to load Spline:', err)
@@ -26,10 +27,23 @@ export default function SplineClient() {
     )
   }
 
+  // Determine the correct scene URL based on environment
+  const getSceneUrl = () => {
+    if (typeof window === 'undefined') return '/scene.splinecode'
+    
+    // In development
+    if (window.location.hostname === 'localhost') {
+      return '/scene.splinecode'
+    }
+    
+    // In production (GitHub Pages)
+    return '/davidson-lab/scene.splinecode'
+  }
+
   return (
     <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-gray-50 to-gray-100 z-0">
       <SplineComponent
-        scene={typeof window !== 'undefined' ? `${window.location.origin}/davidson-lab/scene.splinecode` : '/davidson-lab/scene.splinecode'}
+        scene={getSceneUrl()}
         style={{
           position: 'absolute',
           top: '50%',
@@ -39,7 +53,7 @@ export default function SplineClient() {
           height: '100%',
           pointerEvents: 'none'
         }}
-        onLoad={() => console.log('Spline scene loaded')}
+        onLoad={() => console.log('Spline scene loaded successfully')}
         onError={(e: any) => console.error('Spline error:', e)}
       />
     </div>
