@@ -35,17 +35,13 @@ export default function Footer() {
     <footer 
       ref={footerRef} 
       id="contact" 
-      className="relative z-10 h-screen flex flex-col bg-gradient-to-br from-gray-50 to-white snap-section"
+      className="relative z-10 h-screen flex flex-col bg-gradient-to-br from-gray-50 to-white"
       style={{ scrollMarginTop: '80px' }}
     >
+      {/* Spacer to push content lower */}
+      <div className="h-32 md:h-40"></div>
       <div className="flex-1 flex flex-col justify-center px-6 md:px-8 py-12 md:py-16">
         <div className="max-w-4xl mx-auto w-full">
-          <h2 className={`text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center gradient-text-grey transition-all duration-700 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-          style={{
-            transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
-          }}>Get in Touch</h2>
           <div className={`transition-all duration-700 delay-200 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
@@ -99,6 +95,8 @@ export default function Footer() {
           </div>
         </div>
       </div>
+      {/* Bottom spacer for balance */}
+      <div className="h-8 md:h-10"></div>
     </footer>
   )
 }

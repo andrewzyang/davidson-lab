@@ -46,9 +46,9 @@ export default function Home() {
   }, [])
   
   return (
-    <div className="snap-container h-screen overflow-y-scroll absolute inset-0">
+    <div>
       {/* Hero Section with Spline */}
-      <div ref={heroRef} className="relative min-h-screen overflow-hidden snap-section">
+      <div ref={heroRef} className="relative min-h-screen overflow-hidden">
         <ErrorBoundary>
           <SplineScene />
         </ErrorBoundary>
@@ -68,7 +68,7 @@ export default function Home() {
       </div>
 
       {/* About Section */}
-      <section ref={missionRef} className="relative z-10 min-h-screen flex items-center snap-section overflow-hidden bg-gradient-to-br from-gray-50 to-white">
+      <section ref={missionRef} className="relative z-10 min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-50 to-white">
         <div className="absolute inset-0 flex">
           {/* Image Container - Starts full width, then shrinks to left half */}
           <div 
