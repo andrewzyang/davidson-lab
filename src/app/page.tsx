@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic'
 import Footer from '@/components/layout/Footer'
 import { useEffect, useState, useRef } from 'react'
 import ErrorBoundary from '@/components/ErrorBoundary'
+import { getAssetPath } from '@/utils/basePath'
 
 const SplineScene = dynamic(() => import('@/components/SplineScene'), { 
   ssr: false,
@@ -86,7 +87,7 @@ export default function Home() {
                 missionImageShown ? 'opacity-100' : 'opacity-0'
               }`}
               style={{
-                backgroundImage: 'url("/ghbc-banner.jpg")',
+                backgroundImage: `url("${getAssetPath('/ghbc-banner.jpg')}")`,
                 backgroundSize: 'cover',
                 backgroundPosition: missionTextShown ? '20% center' : 'center',
                 backgroundRepeat: 'no-repeat',

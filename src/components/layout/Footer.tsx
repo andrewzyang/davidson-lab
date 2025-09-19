@@ -2,6 +2,7 @@
 import ContactForm from './ContactForm'
 import Image from 'next/image'
 import { useEffect, useState, useRef } from 'react'
+import { getAssetPath } from '@/utils/basePath'
 
 export default function Footer() {
   const [isVisible, setIsVisible] = useState(false)
@@ -60,11 +61,11 @@ export default function Footer() {
               <div className="relative h-8 md:h-10 w-32 md:w-36">
                 <div className="absolute inset-0 bg-gray-500" 
                      style={{
-                       maskImage: "url('/logo-sunnybrook.svg')",
+                       maskImage: `url('${getAssetPath('/logo-sunnybrook.svg')}')`,
                        maskSize: 'contain',
                        maskRepeat: 'no-repeat',
                        maskPosition: 'center',
-                       WebkitMaskImage: "url('/logo-sunnybrook.svg')",
+                       WebkitMaskImage: `url('${getAssetPath('/logo-sunnybrook.svg')}')`,
                        WebkitMaskSize: 'contain',
                        WebkitMaskRepeat: 'no-repeat',
                        WebkitMaskPosition: 'center'
@@ -73,11 +74,11 @@ export default function Footer() {
               <div className="relative h-8 md:h-10 w-32 md:w-36">
                 <div className="absolute inset-0 bg-gray-500"
                      style={{
-                       maskImage: "url('/logo-uoft.svg')",
+                       maskImage: `url('${getAssetPath('/logo-uoft.svg')}')`,
                        maskSize: 'contain',
                        maskRepeat: 'no-repeat',
                        maskPosition: 'center',
-                       WebkitMaskImage: "url('/logo-uoft.svg')",
+                       WebkitMaskImage: `url('${getAssetPath('/logo-uoft.svg')}')`,
                        WebkitMaskSize: 'contain',
                        WebkitMaskRepeat: 'no-repeat',
                        WebkitMaskPosition: 'center'

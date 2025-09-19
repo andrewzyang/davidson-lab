@@ -1,3 +1,5 @@
+import { getAssetPath } from '@/utils/basePath'
+
 export interface TeamMember {
   id: string
   name: string
@@ -17,7 +19,7 @@ export const teamMembers: TeamMember[] = [
     id: 'benjamin-davidson',
     name: 'Dr. Benjamin Davidson, MD, PhD',
     title: 'Neurosurgeon & Principal Investigator',
-    imageUrl: '/images/team/benjamin-davidson.webp',
+    imageUrl: getAssetPath('/images/team/benjamin-davidson.webp'),
     category: 'leadership',
     bio: 'Benjamin Davidson (MD, PhD) is a functional neurosurgeon starting on staff at Sunnybrook Hospital, Toronto. His interests include lesional and DBS treatment of movement disorders, pain, and psychiatric disease, and the use of advanced neuroimaging to help uncover predictors, biomarkers, and mechanisms of response. He has published extensively on MRgFUS capsulotomy in MDD and OCD, as well as the use of DBS to treatment alcohol use disorder. He\'s keen to discuss ways to improve how we select patients, measure outcomes, and interrogate neurocircuits.',
     email: 'davidson@university.edu',
@@ -29,7 +31,7 @@ export const teamMembers: TeamMember[] = [
     id: 'sarah-chen',
     name: 'Sarah Chen',
     title: 'Senior Research Scientist',
-    imageUrl: '/images/team/sarah-chen.jpg',
+    imageUrl: getAssetPath('/images/team/sarah-chen.jpg'),
     category: 'researchers',
     bio: 'Dr. Sarah Chen specializes in computational neuroscience and machine learning applications.'
   },
@@ -37,7 +39,7 @@ export const teamMembers: TeamMember[] = [
     id: 'michael-torres',
     name: 'Michael Torres',
     title: 'Postdoctoral Fellow',
-    imageUrl: '/images/team/michael-torres.jpg',
+    imageUrl: getAssetPath('/images/team/michael-torres.jpg'),
     category: 'researchers',
     bio: 'Michael Torres focuses on neural network modeling and data analysis.'
   },
@@ -45,7 +47,7 @@ export const teamMembers: TeamMember[] = [
     id: 'emily-williams',
     name: 'Emily Williams',
     title: 'Graduate Student',
-    imageUrl: '/images/team/emily-williams.jpg',
+    imageUrl: getAssetPath('/images/team/emily-williams.jpg'),
     category: 'researchers',
     bio: 'Emily Williams is pursuing her PhD in neuroscience with a focus on cognitive processes.'
   },
@@ -53,7 +55,7 @@ export const teamMembers: TeamMember[] = [
     id: 'james-park',
     name: 'James Park',
     title: 'Research Assistant',
-    imageUrl: '/images/team/james-park.jpg',
+    imageUrl: getAssetPath('/images/team/james-park.jpg'),
     category: 'staff',
     bio: 'James Park supports various research projects and laboratory operations.'
   },
@@ -61,7 +63,7 @@ export const teamMembers: TeamMember[] = [
     id: 'lisa-johnson',
     name: 'Lisa Johnson',
     title: 'Lab Manager',
-    imageUrl: '/images/team/lisa-johnson.jpg',
+    imageUrl: getAssetPath('/images/team/lisa-johnson.jpg'),
     category: 'staff',
     bio: 'Lisa Johnson manages laboratory operations and coordinates research activities.'
   }

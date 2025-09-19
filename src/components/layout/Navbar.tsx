@@ -2,6 +2,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
+import davidsonLogo from '../../../public/davidson-lab-logo-icon.png'
+import sunnybrookLogo from '../../../public/sunnybrook-logo-new.png'
 
 export default function Navbar() {
   const pathname = usePathname()
@@ -30,7 +32,7 @@ export default function Navbar() {
             className="relative h-8 w-8 hover:scale-110 transition-transform duration-300 mr-4"
           >
             <Image
-              src="/davidson-lab-logo-icon.png"
+              src={davidsonLogo}
               alt="Davidson Lab"
               fill
               className="object-contain"
@@ -84,7 +86,7 @@ export default function Navbar() {
           className="relative h-12 w-36 hover:scale-105 transition-transform duration-300"
         >
           <Image
-            src="/sunnybrook-logo-new.png"
+            src={sunnybrookLogo}
             alt="Harquail Centre for Neuromodulation"
             fill
             className="object-contain"
