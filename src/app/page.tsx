@@ -6,8 +6,8 @@ import { useEffect, useState, useRef } from 'react'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import { getAssetPath } from '@/utils/basePath'
 
-// Use SplineStatic with absolute URL for production
-const SplineScene = dynamic(() => import('@/components/SplineStatic'), { 
+// Use SplineRobust with fallback mechanisms
+const SplineScene = dynamic(() => import('@/components/SplineRobust'), { 
   ssr: false,
   loading: () => <div className="absolute inset-0 flex items-center justify-center z-0 bg-gradient-to-br from-gray-50 to-gray-100"><div className="text-gray-400">Loading 3D Scene...</div></div>
 })
