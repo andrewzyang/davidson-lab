@@ -3,7 +3,7 @@
 import { Suspense, lazy, useEffect, useState } from 'react'
 
 // Dynamically import Spline to avoid SSR issues
-const Spline = lazy(() => import('@splinetool/react-spline'))
+const Spline = lazy(() => import('@splinetool/react-spline').then(mod => ({ default: mod.default || mod })))
 
 export default function SplineScene() {
   const [mounted, setMounted] = useState(false)

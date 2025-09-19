@@ -13,7 +13,7 @@ export default function Navbar() {
     e.preventDefault()
     if (pathname === '/') {
       // If already on home page, reload it
-      window.location.href = '/'
+      window.location.reload()
     } else {
       // Navigate to home
       router.push('/')

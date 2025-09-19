@@ -1,8 +1,14 @@
 'use client'
 
-import SplineScene from '@/components/SplineScene'
+import dynamic from 'next/dynamic'
 import Footer from '@/components/layout/Footer'
 import { useEffect, useState, useRef } from 'react'
+import ErrorBoundary from '@/components/ErrorBoundary'
+
+const SplineScene = dynamic(() => import('@/components/SplineScene'), { 
+  ssr: false,
+  loading: () => <div className="absolute inset-0 flex items-center justify-center z-0 bg-gradient-to-br from-gray-50 to-gray-100"><div className="text-gray-400">Loading 3D Scene...</div></div>
+})
 
 export default function Home() {
   const [mounted, setMounted] = useState(false)
@@ -41,7 +47,9 @@ export default function Home() {
     <div className="snap-container h-screen overflow-y-scroll absolute inset-0">
       {/* Hero Section with Spline */}
       <div ref={heroRef} className="relative min-h-screen overflow-hidden snap-section">
-        <SplineScene />
+        <ErrorBoundary>
+          <SplineScene />
+        </ErrorBoundary>
         
         {/* Title Overlay */}
         <div className="relative z-10 min-h-screen flex items-center">
