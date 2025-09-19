@@ -29,10 +29,13 @@ export default function Navbar() {
       const contactElement = document.getElementById('contact')
       if (contactElement) {
         console.log(`Contact element found on attempt ${attempt}`)
-        contactElement.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start',
-          inline: 'nearest'
+        // Calculate the exact position and scroll to it
+        const elementPosition = contactElement.getBoundingClientRect().top
+        const offsetPosition = elementPosition + window.pageYOffset - 80 // 80px offset for navbar
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
         })
         return true
       }
