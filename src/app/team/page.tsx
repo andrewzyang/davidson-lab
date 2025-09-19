@@ -14,28 +14,45 @@ export default function Team() {
   const staff = getTeamByCategory('staff')
 
   useEffect(() => {
+    // Prevent any hash-based scrolling
+    const preventHashScroll = () => {
+      window.scrollTo(0, 0)
+    }
+    
     // Clear any hash in the URL that might cause auto-scroll
     if (window.location.hash) {
       window.history.replaceState(null, '', window.location.pathname)
     }
     
-    // Scroll to top of page
+    // Force scroll to top multiple times to ensure it takes effect
     window.scrollTo(0, 0)
+    setTimeout(() => window.scrollTo(0, 0), 0)
+    setTimeout(() => window.scrollTo(0, 0), 50)
+    
+    // Listen for any scroll attempts and force back to top briefly
+    window.addEventListener('scroll', preventHashScroll, { once: true })
     
     setMounted(true)
-    const timer = setTimeout(() => setVisible(true), 100)
-    return () => clearTimeout(timer)
+    const timer = setTimeout(() => {
+      setVisible(true)
+      window.removeEventListener('scroll', preventHashScroll)
+    }, 100)
+    
+    return () => {
+      clearTimeout(timer)
+      window.removeEventListener('scroll', preventHashScroll)
+    }
   }, [])
 
   return (
     <div>
       <div className="min-h-screen pt-32 pb-16 px-4 relative z-10">
         <div className="max-w-7xl mx-auto">
-        <h1 className={`text-4xl md:text-5xl lg:text-6xl font-arial-nova font-bold leading-tight text-center mb-16 transition-all duration-1000 ${
-          mounted && visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}>
-          <span className="gradient-text-grey">Team</span>
-        </h1>
+      <h1 className={`text-4xl md:text-5xl lg:text-6xl font-arial-nova font-bold leading-tight text-center mb-16 transition-all duration-1000 ${
+        mounted && visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      }`}>
+        <span className="gradient-text-grey">Team</span>
+      </h1>
         
         {/* Leadership Section - Benjamin Davidson Special Layout */}
         <section className={`mb-20 transition-all duration-1000 delay-200 ${

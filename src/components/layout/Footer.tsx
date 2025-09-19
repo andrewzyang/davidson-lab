@@ -32,7 +32,7 @@ export default function Footer() {
   }, [])
   
   return (
-    <footer ref={footerRef} id="contact" className="relative z-10 h-screen flex flex-col bg-gradient-to-br from-gray-50 to-white snap-section">
+    <footer ref={footerRef} className="relative z-10 h-screen flex flex-col bg-gradient-to-br from-gray-50 to-white snap-section">
       <div className="flex-1 flex flex-col px-6 md:px-8 pt-24 md:pt-32 pb-12 md:pb-16">
         <div className="max-w-4xl mx-auto w-full">
           <h2 className={`text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center gradient-text-grey transition-all duration-700 ${

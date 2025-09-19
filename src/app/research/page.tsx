@@ -28,17 +28,34 @@ export default function Research() {
   })
 
   useEffect(() => {
+    // Prevent any hash-based scrolling
+    const preventHashScroll = () => {
+      window.scrollTo(0, 0)
+    }
+    
     // Clear any hash in the URL that might cause auto-scroll
     if (window.location.hash) {
       window.history.replaceState(null, '', window.location.pathname)
     }
     
-    // Scroll to top of page
+    // Force scroll to top multiple times to ensure it takes effect
     window.scrollTo(0, 0)
+    setTimeout(() => window.scrollTo(0, 0), 0)
+    setTimeout(() => window.scrollTo(0, 0), 50)
+    
+    // Listen for any scroll attempts and force back to top briefly
+    window.addEventListener('scroll', preventHashScroll, { once: true })
     
     setMounted(true)
-    const timer = setTimeout(() => setVisible(true), 100)
-    return () => clearTimeout(timer)
+    const timer = setTimeout(() => {
+      setVisible(true)
+      window.removeEventListener('scroll', preventHashScroll)
+    }, 100)
+    
+    return () => {
+      clearTimeout(timer)
+      window.removeEventListener('scroll', preventHashScroll)
+    }
   }, [])
 
   useEffect(() => {
@@ -72,33 +89,33 @@ export default function Research() {
     <div>
       <div className="min-h-screen pt-32 pb-16 px-4 relative z-10">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <h1 className={`text-4xl md:text-5xl lg:text-6xl font-arial-nova font-bold leading-tight text-center mb-16 transition-all duration-1000 ${
-            mounted && visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}>
-            <span className="gradient-text-grey">Research</span>
-          </h1>
+        {/* Header */}
+        <h1 className={`text-4xl md:text-5xl lg:text-6xl font-arial-nova font-bold leading-tight text-center mb-16 transition-all duration-1000 ${
+          mounted && visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
+          <span className="gradient-text-grey">Research</span>
+        </h1>
 
-          {/* Publications List - Single Column */}
-          <div className="space-y-6 w-4/5 mx-auto">
-            {sortedPublications.map((publication, index) => (
-              <div
-                key={publication.id}
-                ref={(el) => { cardRefs.current[index] = el }}
-                data-index={index}
-                className={`transition-all duration-700 transform ${
-                  visibleCards.has(index) 
-                    ? 'opacity-100 translate-y-0' 
-                    : 'opacity-0 translate-y-8'
-                }`}
-              >
-                <PublicationCard
-                  publication={publication}
-                />
-              </div>
-            ))}
-          </div>
+        {/* Publications List - Single Column */}
+        <div className="space-y-6 w-4/5 mx-auto">
+          {sortedPublications.map((publication, index) => (
+            <div
+              key={publication.id}
+              ref={(el) => { cardRefs.current[index] = el }}
+              data-index={index}
+              className={`transition-all duration-700 transform ${
+                visibleCards.has(index) 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-8'
+              }`}
+            >
+              <PublicationCard
+                publication={publication}
+              />
+            </div>
+          ))}
         </div>
+      </div>
       </div>
       <Footer />
     </div>

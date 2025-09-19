@@ -22,6 +22,26 @@ export default function Navbar() {
     }
   }
   
+  const handleContactClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+    if (pathname === '/') {
+      // On homepage, scroll to contact section
+      const contactElement = document.querySelector('footer')
+      if (contactElement) {
+        contactElement.scrollIntoView({ behavior: 'smooth' })
+      }
+    } else {
+      // On other pages, navigate to home and then scroll to contact
+      router.push('/')
+      setTimeout(() => {
+        const contactElement = document.querySelector('footer')
+        if (contactElement) {
+          contactElement.scrollIntoView({ behavior: 'smooth' })
+        }
+      }, 500)
+    }
+  }
+  
   return (
     <nav className="fixed top-4 left-4 right-4 z-[100] bg-white/20 backdrop-blur-md border border-white/10 shadow-md rounded-full">
       <div className="flex items-center justify-between px-6 py-2 relative z-10">
@@ -72,6 +92,7 @@ export default function Navbar() {
           </Link>
           <a
             href="#contact"
+            onClick={handleContactClick}
             className="px-4 py-2 text-base font-medium text-white bg-gradient-to-r from-gray-500 to-gray-700 rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300"
           >
             Contact

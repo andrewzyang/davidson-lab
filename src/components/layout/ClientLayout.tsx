@@ -1,7 +1,6 @@
 'use client'
 
 import Navbar from '@/components/layout/Navbar'
-import Footer from '@/components/layout/Footer'
 import { usePathname } from 'next/navigation'
 
 export default function ClientLayout({
@@ -18,7 +17,6 @@ export default function ClientLayout({
       <main className={isHomePage ? '' : 'flex-grow'}>
         {children}
       </main>
-      {!isHomePage && <Footer />}
     </>
   )
 }
