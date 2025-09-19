@@ -27,62 +27,72 @@ export default function Navbar() {
     
     // Check if we're on the home page (which has a custom scroll container)
     if (pathname === '/') {
-      // Home page: scroll the main container with snap classes
-      const scrollHomeToBottom = () => {
-        // Find the main container with snap scrolling
-        const snapContainer = document.querySelector('.snap-y.snap-mandatory') as HTMLElement
+      // Home page: Has 3 full-screen sections (hero, about, contact)
+      // Each section is exactly viewport height with snap scrolling
+      const scrollToContact = () => {
         const footerElement = document.getElementById('contact')
         
-        if (snapContainer && footerElement) {
-          // Get the footer's position relative to the container
-          const footerRect = footerElement.getBoundingClientRect()
-          const containerRect = snapContainer.getBoundingClientRect()
-          
-          // Calculate the scroll position needed to show the footer
-          // We want the footer to fill the entire viewport
-          const currentScroll = snapContainer.scrollTop
-          const footerOffsetFromTop = footerElement.offsetTop
-          
-          console.log('Home page Footer scroll:', { 
-            footerOffsetFromTop,
-            currentScroll,
-            footerRect,
-            containerRect
+        if (!footerElement) {
+          console.error('Contact section not found')
+          return
+        }
+        
+        // Method 1: Direct scrollIntoView (most reliable)
+        footerElement.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start',
+          inline: 'nearest' 
+        })
+        
+        // Method 2: Calculate exact position as fallback
+        // The footer is the 3rd section, so it's at 2 * viewport height
+        const viewportHeight = window.innerHeight
+        const targetScroll = viewportHeight * 2 // 0 for hero, 1x for about, 2x for contact
+        
+        // Find any scrollable container (could be body, html, or the main div)
+        const possibleContainers = [
+          document.querySelector('.snap-y.snap-mandatory') as HTMLElement,
+          document.querySelector('.overflow-y-auto') as HTMLElement,
+          document.querySelector('main') as HTMLElement,
+          document.documentElement,
+          document.body
+        ].filter(Boolean)
+        
+        // Try to scroll each possible container
+        setTimeout(() => {
+          possibleContainers.forEach(container => {
+            if (container && container.scrollHeight > container.clientHeight) {
+              // This container is scrollable
+              console.log('Scrolling container:', container.className || container.tagName)
+              
+              // Try direct position scroll
+              if ('scrollTo' in container) {
+                container.scrollTo({
+                  top: targetScroll,
+                  behavior: 'smooth'
+                })
+              }
+              
+              // Also try setting scrollTop directly as backup
+              setTimeout(() => {
+                container.scrollTop = targetScroll
+              }, 500)
+            }
           })
           
-          // Temporarily disable snap behavior for smooth scrolling
-          const originalSnapType = snapContainer.style.scrollSnapType
-          snapContainer.style.scrollSnapType = 'none'
-          
-          // Scroll directly to the footer's position
-          snapContainer.scrollTo({
-            top: footerOffsetFromTop,
+          // Final fallback: window scroll
+          window.scrollTo({
+            top: targetScroll,
             behavior: 'smooth'
           })
-          
-          // Re-enable snap after scroll completes
-          setTimeout(() => {
-            // Ensure we're at the exact footer position
-            snapContainer.scrollTo({
-              top: footerOffsetFromTop,
-              behavior: 'auto'
-            })
-            
-            // Restore snap behavior
-            snapContainer.style.scrollSnapType = originalSnapType
-          }, 800)
-        } else {
-          // Fallback: use standard scrollIntoView
-          const footerElement = document.getElementById('contact')
-          if (footerElement) {
-            footerElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
-          }
-        }
+        }, 100)
       }
       
-      scrollHomeToBottom()
-      // Retry after short delay to ensure DOM is ready
-      setTimeout(scrollHomeToBottom, 100)
+      // Execute immediately
+      scrollToContact()
+      
+      // Retry to ensure it works
+      setTimeout(scrollToContact, 200)
       
     } else {
       // Other pages: use window scroll (existing solution for team/research)
