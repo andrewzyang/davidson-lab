@@ -3,10 +3,13 @@ import ContactForm from './ContactForm'
 import Image from 'next/image'
 import { useEffect, useState, useRef } from 'react'
 import { getAssetPath } from '@/utils/basePath'
+import { usePathname } from 'next/navigation'
 
 export default function Footer() {
   const [isVisible, setIsVisible] = useState(false)
   const footerRef = useRef<HTMLElement>(null)
+  const pathname = usePathname()
+  const isHomePage = pathname === '/'
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -35,7 +38,7 @@ export default function Footer() {
     <footer 
       ref={footerRef} 
       id="contact" 
-      className="relative z-10 h-screen flex flex-col bg-gradient-to-br from-gray-50 to-white"
+      className={`relative z-10 h-screen flex flex-col bg-gradient-to-br from-gray-50 to-white ${isHomePage ? 'snap-start' : ''}`}
       style={{ scrollMarginTop: '80px' }}
     >
       {/* Spacer to push content lower */}

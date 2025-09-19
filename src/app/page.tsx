@@ -46,15 +46,15 @@ export default function Home() {
   }, [])
   
   return (
-    <div>
+    <div className="h-screen overflow-y-auto snap-y snap-mandatory">
       {/* Hero Section with Spline */}
-      <div ref={heroRef} className="relative min-h-screen overflow-hidden">
+      <div ref={heroRef} className="relative h-screen overflow-hidden snap-start">
         <ErrorBoundary>
           <SplineScene />
         </ErrorBoundary>
         
         {/* Title Overlay */}
-        <div className="relative z-10 min-h-screen flex items-center">
+        <div className="absolute inset-0 z-10 flex items-center">
           <div className="max-w-7xl mx-auto px-8 py-20 w-full">
             <div className="max-w-2xl">
               <h1 className={`text-5xl md:text-7xl font-arial-nova font-bold mb-6 ${mounted && heroVisible ? 'animate-fadeInUp' : 'opacity-0'}`}>
@@ -68,7 +68,7 @@ export default function Home() {
       </div>
 
       {/* About Section */}
-      <section ref={missionRef} className="relative z-10 min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-50 to-white">
+      <section ref={missionRef} className="relative z-10 h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-50 to-white snap-start">
         <div className="absolute inset-0 flex">
           {/* Image Container - Starts full width, then shrinks to left half */}
           <div 
