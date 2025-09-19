@@ -36,9 +36,9 @@ export default function Footer() {
       ref={footerRef} 
       id="contact" 
       className="relative z-10 h-screen flex flex-col bg-gradient-to-br from-gray-50 to-white snap-section"
-      style={{ scrollMarginTop: '100px' }}
+      style={{ scrollMarginTop: '80px' }}
     >
-      <div className="flex-1 flex flex-col px-6 md:px-8 pt-24 md:pt-32 pb-12 md:pb-16">
+      <div className="flex-1 flex flex-col justify-center px-6 md:px-8 py-12 md:py-16">
         <div className="max-w-4xl mx-auto w-full">
           <h2 className={`text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center gradient-text-grey transition-all duration-700 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'

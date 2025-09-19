@@ -279,6 +279,15 @@ h1, h2, h3, h4, h5, h6 {
   scroll-snap-stop: always;
 }
 
+.snap-center {
+  scroll-snap-align: center;
+}
+
+/* Special snap alignment for footer to ensure content visibility */
+footer#contact {
+  scroll-snap-align: end; /* Snap to bottom of viewport instead of top */
+}
+
 /* Hide Spline watermark */
 spline-viewer::part(logo) {
   display: none !important;
