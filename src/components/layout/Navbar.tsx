@@ -25,41 +25,59 @@ export default function Navbar() {
   const handleContactClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     
-    const scrollToContact = (attempt = 1) => {
-      const contactElement = document.getElementById('contact')
-      if (contactElement) {
-        console.log(`Contact element found on attempt ${attempt}`)
-        // Get the absolute position of the element
-        const rect = contactElement.getBoundingClientRect()
-        const absoluteTop = rect.top + window.scrollY
+    // Simple, robust solution: always scroll to maximum document height
+    const scrollToBottom = () => {
+      // Get all possible height measurements
+      const body = document.body
+      const html = document.documentElement
+      
+      // Calculate the true document height
+      const documentHeight = Math.max(
+        body.scrollHeight,
+        body.offsetHeight,
+        html.clientHeight,
+        html.scrollHeight,
+        html.offsetHeight
+      )
+      
+      // Calculate viewport height
+      const viewportHeight = Math.max(
+        window.innerHeight,
+        html.clientHeight
+      )
+      
+      // Calculate the maximum scroll position
+      const maxScrollPosition = documentHeight - viewportHeight
+      
+      console.log('Scrolling to bottom:', { documentHeight, viewportHeight, maxScrollPosition })
+      
+      // First attempt: Scroll to calculated maximum
+      window.scrollTo({
+        top: maxScrollPosition,
+        behavior: 'smooth'
+      })
+      
+      // Backup: After smooth scroll completes, ensure we're at absolute bottom
+      setTimeout(() => {
+        // Recalculate in case of dynamic content
+        const finalDocHeight = Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        )
+        const finalMaxScroll = finalDocHeight - window.innerHeight
         
-        // Scroll to the element with a small offset for the navbar
-        window.scrollTo({
-          top: absoluteTop - 80,
-          behavior: 'smooth'
-        })
-        return true
-      }
-      return false
+        // Force scroll to absolute maximum if not there already
+        if (window.scrollY < finalMaxScroll - 10) {
+          window.scrollTo(0, finalMaxScroll)
+        }
+      }, 800)
     }
     
-    // Try immediately first
-    if (!scrollToContact(1)) {
-      console.log('Contact element not found, trying with delays...')
-      
-      // Try with increasing delays up to 3 times
-      const retryAttempts = [100, 250, 500]
-      retryAttempts.forEach((delay, index) => {
-        setTimeout(() => {
-          if (!scrollToContact(index + 2)) {
-            console.warn(`Contact element not found after ${delay}ms delay`)
-            if (index === retryAttempts.length - 1) {
-              console.error('Failed to find contact element after all retry attempts')
-            }
-          }
-        }, delay)
-      })
-    }
+    // Execute immediately
+    scrollToBottom()
+    
+    // Backup execution after short delay to handle any DOM updates
+    setTimeout(scrollToBottom, 100)
   }
   
   return (
