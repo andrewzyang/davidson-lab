@@ -5,8 +5,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // If deploying to github.io/davidson-lab, uncomment the line below
-  // basePath: '/davidson-lab',
+  basePath: '/davidson-lab',
+  assetPrefix: '/davidson-lab',
 }
 
 module.exports = nextConfig
