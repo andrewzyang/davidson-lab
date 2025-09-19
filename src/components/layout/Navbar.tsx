@@ -1,18 +1,34 @@
 'use client'
 import Link from 'next/link'
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 export default function Navbar() {
   const pathname = usePathname()
+  const router = useRouter()
   
   const isActive = (path: string) => pathname === path
+  
+  const handleHomeClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+    if (pathname === '/') {
+      // If already on home page, reload it
+      window.location.href = '/'
+    } else {
+      // Navigate to home
+      router.push('/')
+    }
+  }
   
   return (
     <nav className="fixed top-4 left-4 right-4 z-[100] bg-white/20 backdrop-blur-md border border-white/10 shadow-md rounded-full">
       <div className="flex items-center justify-between px-6 py-2 relative z-10">
         <div className="flex items-center space-x-8 relative z-10">
-          <Link href="/" className="relative h-8 w-8 hover:scale-110 transition-transform duration-300 mr-4">
+          <a 
+            href="/" 
+            onClick={handleHomeClick}
+            className="relative h-8 w-8 hover:scale-110 transition-transform duration-300 mr-4"
+          >
             <Image
               src="/davidson-lab-logo-icon.png"
               alt="Davidson Lab"
@@ -20,9 +36,10 @@ export default function Navbar() {
               className="object-contain"
               priority
             />
-          </Link>
-          <Link
+          </a>
+          <a
             href="/"
+            onClick={handleHomeClick}
             className={`${
               isActive('/') 
                 ? 'gradient-text' 
@@ -30,7 +47,7 @@ export default function Navbar() {
             } font-medium text-base tracking-wide transition-all duration-300 hover:scale-105`}
           >
             About
-          </Link>
+          </a>
           <Link
             href="/team"
             className={`${

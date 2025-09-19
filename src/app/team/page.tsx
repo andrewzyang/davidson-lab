@@ -48,6 +48,9 @@ export default function Team() {
                       title={member.title}
                       imageUrl={member.imageUrl}
                       bio="" // Remove hover bio for this special layout
+                      linkedIn={member.linkedIn}
+                      github={member.github}
+                      orcid={member.orcid}
                     />
                   </div>
                   
@@ -94,6 +97,9 @@ export default function Team() {
                     title={member.title}
                     imageUrl={member.imageUrl}
                     bio={member.bio}
+                    linkedIn={member.linkedIn}
+                    github={member.github}
+                    orcid={member.orcid}
                   />
                 </div>
               )
@@ -120,6 +126,9 @@ export default function Team() {
                   title={member.title}
                   imageUrl={member.imageUrl}
                   bio={member.bio}
+                  linkedIn={member.linkedIn}
+                  github={member.github}
+                  orcid={member.orcid}
                 />
               </div>
             ))}
@@ -145,6 +154,9 @@ export default function Team() {
                   title={member.title}
                   imageUrl={member.imageUrl}
                   bio={member.bio}
+                  linkedIn={member.linkedIn}
+                  github={member.github}
+                  orcid={member.orcid}
                 />
               </div>
             ))}

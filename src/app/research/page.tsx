@@ -2,7 +2,7 @@
 
 import PublicationCard from '@/components/research/PublicationCard'
 import publicationsData from '@/data/publications.json'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 // Helper function to convert month names to numbers for sorting
 const getMonthValue = (month: string) => {
@@ -16,6 +16,8 @@ const getMonthValue = (month: string) => {
 export default function Research() {
   const [mounted, setMounted] = useState(false)
   const [visible, setVisible] = useState(false)
+  const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set())
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
   
   const { researcher, publications } = publicationsData
 
@@ -30,6 +32,33 @@ export default function Research() {
     return () => clearTimeout(timer)
   }, [])
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = Number(entry.target.getAttribute('data-index'))
+            setVisibleCards((prev) => new Set(prev).add(index))
+          }
+        })
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '50px'
+      }
+    )
+
+    cardRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref)
+    })
+
+    return () => {
+      cardRefs.current.forEach((ref) => {
+        if (ref) observer.unobserve(ref)
+      })
+    }
+  }, [sortedPublications.length])
+
   return (
     <div className="min-h-screen pt-32 pb-16 px-4 relative z-10">
       <div className="max-w-7xl mx-auto">
@@ -41,16 +70,17 @@ export default function Research() {
         </h1>
 
         {/* Publications List - Single Column */}
-        <div className={`space-y-6 w-4/5 mx-auto transition-all duration-1000 delay-300 ${
-          mounted && visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}>
+        <div className="space-y-6 w-4/5 mx-auto">
           {sortedPublications.map((publication, index) => (
             <div
               key={publication.id}
-              className={`transition-all duration-700 ${
-                mounted && visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              ref={(el) => { cardRefs.current[index] = el }}
+              data-index={index}
+              className={`transition-all duration-700 transform ${
+                visibleCards.has(index) 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-8'
               }`}
-              style={mounted && visible ? { transitionDelay: `${400 + index * 150}ms` } : {}}
             >
               <PublicationCard
                 publication={publication}

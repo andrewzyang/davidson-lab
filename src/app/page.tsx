@@ -62,13 +62,14 @@ export default function Home() {
         <div className="absolute inset-0 flex">
           {/* Image Container - Starts full width, then shrinks to left half */}
           <div 
-            className={`absolute inset-y-0 left-0 transition-all ease-out ${
+            className={`absolute inset-y-0 left-0 transition-all ${
               missionImageShown 
                 ? (missionTextShown ? 'w-1/2' : 'w-full') 
                 : 'w-full'
             }`}
             style={{
               transitionDuration: '1250ms',
+              transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
               transitionDelay: missionTextShown ? '0ms' : '0ms'
             }}
           >
@@ -93,11 +94,12 @@ export default function Home() {
           
           {/* Gradient background for right side */}
           <div 
-            className={`absolute inset-y-0 right-0 bg-gradient-to-br from-gray-50 to-white transition-all ease-out ${
+            className={`absolute inset-y-0 right-0 bg-gradient-to-br from-gray-50 to-white transition-all ${
               missionTextShown ? 'w-1/2' : 'w-0'
             }`}
             style={{
-              transitionDuration: '2500ms'
+              transitionDuration: '2500ms',
+              transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)'
             }}
           />
         </div>
@@ -116,15 +118,21 @@ export default function Home() {
                 {/* Heading */}
                 <h2 className={`text-4xl md:text-5xl lg:text-6xl font-arial-nova font-bold mb-8 transition-all duration-700 delay-300 ${
                   missionTextShown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                }`}>
-                  <span className="gradient-text-grey">Our Mission</span>
+                }`}
+                style={{
+                  transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)'
+                }}>
+                  <span className="gradient-text-grey">Mission</span>
                 </h2>
                 
                 {/* Description */}
                 <div className="space-y-6">
                   <p className={`text-lg md:text-xl text-gray-700 leading-relaxed font-arial-nova transition-all duration-700 delay-400 ${
                     missionTextShown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                  }`}>
+                  }`}
+                  style={{
+                    transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)'
+                  }}>
                     Our research focuses on developing innovative neurosurgical interventions 
                     for treatment-resistant psychiatric disorders. We combine cutting-edge 
                     neurotechnology with precision psychiatry to restore function and improve 
@@ -132,7 +140,10 @@ export default function Home() {
                   </p>
                   <p className={`text-lg md:text-xl text-gray-700 leading-relaxed font-arial-nova transition-all duration-700 delay-500 ${
                     missionTextShown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                  }`}>
+                  }`}
+                  style={{
+                    transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)'
+                  }}>
                     We hope to help those with unmet medical needs and 
                     unlock new understanding of the mind through precise neurosurgical therapies.
                   </p>

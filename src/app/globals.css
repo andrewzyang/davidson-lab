@@ -267,3 +267,18 @@ h1, h2, h3, h4, h5, h6 {
   scroll-snap-align: start;
   scroll-snap-stop: always;
 }
+
+/* Hide Spline watermark */
+spline-viewer::part(logo) {
+  display: none !important;
+}
+
+/* Alternative method to hide Spline watermark */
+spline-viewer [class*="watermark"],
+spline-viewer [class*="logo"],
+spline-viewer [class*="spline-watermark"],
+spline-viewer [id*="logo"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
