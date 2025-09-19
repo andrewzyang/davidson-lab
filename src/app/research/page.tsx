@@ -89,15 +89,15 @@ export default function Research() {
     <div>
       <div className="min-h-screen pt-32 pb-16 px-4 relative z-10">
         <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <h1 className={`text-4xl md:text-5xl lg:text-6xl font-arial-nova font-bold leading-tight text-center mb-16 transition-all duration-1000 ${
-          mounted && visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}>
-          <span className="gradient-text-grey">Research</span>
-        </h1>
+          {/* Header */}
+          <h1 className={`text-4xl md:text-5xl lg:text-6xl font-arial-nova font-bold leading-tight text-center mb-16 transition-all duration-1000 ${
+            mounted && visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}>
+            <span className="gradient-text-grey">Research</span>
+          </h1>
 
-        {/* Publications List - Single Column */}
-        <div className="space-y-6 w-4/5 mx-auto">
+          {/* Publications List - Single Column */}
+          <div className="space-y-6 w-4/5 mx-auto">
           {sortedPublications.map((publication, index) => (
             <div
               key={publication.id}

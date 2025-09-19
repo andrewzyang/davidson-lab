@@ -48,11 +48,11 @@ export default function Team() {
     <div>
       <div className="min-h-screen pt-32 pb-16 px-4 relative z-10">
         <div className="max-w-7xl mx-auto">
-      <h1 className={`text-4xl md:text-5xl lg:text-6xl font-arial-nova font-bold leading-tight text-center mb-16 transition-all duration-1000 ${
-        mounted && visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-      }`}>
-        <span className="gradient-text-grey">Team</span>
-      </h1>
+          <h1 className={`text-4xl md:text-5xl lg:text-6xl font-arial-nova font-bold leading-tight text-center mb-16 transition-all duration-1000 ${
+            mounted && visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}>
+            <span className="gradient-text-grey">Team</span>
+          </h1>
         
         {/* Leadership Section - Benjamin Davidson Special Layout */}
         <section className={`mb-20 transition-all duration-1000 delay-200 ${
