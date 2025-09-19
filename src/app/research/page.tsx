@@ -28,6 +28,8 @@ export default function Research() {
   })
 
   useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0)
     setMounted(true)
     const timer = setTimeout(() => setVisible(true), 100)
     return () => clearTimeout(timer)

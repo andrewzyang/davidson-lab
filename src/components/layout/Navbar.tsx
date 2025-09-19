@@ -52,6 +52,7 @@ export default function Navbar() {
           </a>
           <Link
             href="/team"
+            onClick={() => window.scrollTo(0, 0)}
             className={`${
               isActive('/team') 
                 ? 'gradient-text' 
@@ -62,6 +63,7 @@ export default function Navbar() {
           </Link>
           <Link
             href="/research"
+            onClick={() => window.scrollTo(0, 0)}
             className={`${
               isActive('/research') 
                 ? 'gradient-text' 
