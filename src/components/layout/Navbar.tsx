@@ -27,68 +27,56 @@ export default function Navbar() {
     
     // Check if we're on the home page (which has a custom scroll container)
     if (pathname === '/') {
-      // Home page: scroll the snap-container element
+      // Home page: scroll the main container with snap classes
       const scrollHomeToBottom = () => {
-        const snapContainer = document.querySelector('.snap-container') as HTMLElement
+        // Find the main container with snap scrolling
+        const snapContainer = document.querySelector('.snap-y.snap-mandatory') as HTMLElement
         const footerElement = document.getElementById('contact')
         
         if (snapContainer && footerElement) {
-          // Method 1: Try to scroll to footer element position
-          const footerOffsetTop = footerElement.offsetTop
-          const footerHeight = footerElement.offsetHeight
-          const containerHeight = snapContainer.clientHeight
+          // Get the footer's position relative to the container
+          const footerRect = footerElement.getBoundingClientRect()
+          const containerRect = snapContainer.getBoundingClientRect()
           
-          // Calculate position to show footer centered or at top
-          // We want to see the "Get in Touch" heading, so scroll to show the footer
-          const targetScroll = footerOffsetTop
+          // Calculate the scroll position needed to show the footer
+          // We want the footer to fill the entire viewport
+          const currentScroll = snapContainer.scrollTop
+          const footerOffsetFromTop = footerElement.offsetTop
           
           console.log('Home page Footer scroll:', { 
-            footerOffsetTop, 
-            footerHeight, 
-            containerHeight,
-            targetScroll 
+            footerOffsetFromTop,
+            currentScroll,
+            footerRect,
+            containerRect
           })
           
-          // Temporarily disable snap behavior for precise scrolling
+          // Temporarily disable snap behavior for smooth scrolling
           const originalSnapType = snapContainer.style.scrollSnapType
           snapContainer.style.scrollSnapType = 'none'
           
-          // Scroll to the footer position
+          // Scroll directly to the footer's position
           snapContainer.scrollTo({
-            top: targetScroll,
+            top: footerOffsetFromTop,
             behavior: 'smooth'
           })
           
           // Re-enable snap after scroll completes
           setTimeout(() => {
-            // Check if we need to scroll more to show full footer
-            const currentScroll = snapContainer.scrollTop
-            const maxScroll = snapContainer.scrollHeight - snapContainer.clientHeight
+            // Ensure we're at the exact footer position
+            snapContainer.scrollTo({
+              top: footerOffsetFromTop,
+              behavior: 'auto'
+            })
             
-            // If footer is not fully visible, scroll to absolute bottom
-            if (currentScroll < footerOffsetTop) {
-              snapContainer.scrollTo({
-                top: Math.min(footerOffsetTop, maxScroll),
-                behavior: 'smooth'
-              })
-            }
-            
-            // Restore snap behavior after positioning
-            setTimeout(() => {
-              snapContainer.style.scrollSnapType = originalSnapType
-            }, 100)
+            // Restore snap behavior
+            snapContainer.style.scrollSnapType = originalSnapType
           }, 800)
-        } else if (snapContainer) {
-          // Fallback: Just scroll to absolute bottom
-          const maxScroll = snapContainer.scrollHeight - snapContainer.clientHeight
-          snapContainer.style.scrollSnapType = 'none'
-          snapContainer.scrollTo({
-            top: maxScroll,
-            behavior: 'smooth'
-          })
-          setTimeout(() => {
-            snapContainer.style.scrollSnapType = 'y mandatory'
-          }, 900)
+        } else {
+          // Fallback: use standard scrollIntoView
+          const footerElement = document.getElementById('contact')
+          if (footerElement) {
+            footerElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          }
         }
       }
       
