@@ -25,59 +25,132 @@ export default function Navbar() {
   const handleContactClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     
-    // Simple, robust solution: always scroll to maximum document height
-    const scrollToBottom = () => {
-      // Get all possible height measurements
-      const body = document.body
-      const html = document.documentElement
-      
-      // Calculate the true document height
-      const documentHeight = Math.max(
-        body.scrollHeight,
-        body.offsetHeight,
-        html.clientHeight,
-        html.scrollHeight,
-        html.offsetHeight
-      )
-      
-      // Calculate viewport height
-      const viewportHeight = Math.max(
-        window.innerHeight,
-        html.clientHeight
-      )
-      
-      // Calculate the maximum scroll position
-      const maxScrollPosition = documentHeight - viewportHeight
-      
-      console.log('Scrolling to bottom:', { documentHeight, viewportHeight, maxScrollPosition })
-      
-      // First attempt: Scroll to calculated maximum
-      window.scrollTo({
-        top: maxScrollPosition,
-        behavior: 'smooth'
-      })
-      
-      // Backup: After smooth scroll completes, ensure we're at absolute bottom
-      setTimeout(() => {
-        // Recalculate in case of dynamic content
-        const finalDocHeight = Math.max(
-          document.body.scrollHeight,
-          document.documentElement.scrollHeight
-        )
-        const finalMaxScroll = finalDocHeight - window.innerHeight
+    // Check if we're on the home page (which has a custom scroll container)
+    if (pathname === '/') {
+      // Home page: scroll the snap-container element
+      const scrollHomeToBottom = () => {
+        const snapContainer = document.querySelector('.snap-container') as HTMLElement
+        const footerElement = document.getElementById('contact')
         
-        // Force scroll to absolute maximum if not there already
-        if (window.scrollY < finalMaxScroll - 10) {
-          window.scrollTo(0, finalMaxScroll)
+        if (snapContainer && footerElement) {
+          // Method 1: Try to scroll to footer element position
+          const footerOffsetTop = footerElement.offsetTop
+          const footerHeight = footerElement.offsetHeight
+          const containerHeight = snapContainer.clientHeight
+          
+          // Calculate position to show footer centered or at top
+          // We want to see the "Get in Touch" heading, so scroll to show the footer
+          const targetScroll = footerOffsetTop
+          
+          console.log('Home page Footer scroll:', { 
+            footerOffsetTop, 
+            footerHeight, 
+            containerHeight,
+            targetScroll 
+          })
+          
+          // Temporarily disable snap behavior for precise scrolling
+          const originalSnapType = snapContainer.style.scrollSnapType
+          snapContainer.style.scrollSnapType = 'none'
+          
+          // Scroll to the footer position
+          snapContainer.scrollTo({
+            top: targetScroll,
+            behavior: 'smooth'
+          })
+          
+          // Re-enable snap after scroll completes
+          setTimeout(() => {
+            // Check if we need to scroll more to show full footer
+            const currentScroll = snapContainer.scrollTop
+            const maxScroll = snapContainer.scrollHeight - snapContainer.clientHeight
+            
+            // If footer is not fully visible, scroll to absolute bottom
+            if (currentScroll < footerOffsetTop) {
+              snapContainer.scrollTo({
+                top: Math.min(footerOffsetTop, maxScroll),
+                behavior: 'smooth'
+              })
+            }
+            
+            // Restore snap behavior after positioning
+            setTimeout(() => {
+              snapContainer.style.scrollSnapType = originalSnapType
+            }, 100)
+          }, 800)
+        } else if (snapContainer) {
+          // Fallback: Just scroll to absolute bottom
+          const maxScroll = snapContainer.scrollHeight - snapContainer.clientHeight
+          snapContainer.style.scrollSnapType = 'none'
+          snapContainer.scrollTo({
+            top: maxScroll,
+            behavior: 'smooth'
+          })
+          setTimeout(() => {
+            snapContainer.style.scrollSnapType = 'y mandatory'
+          }, 900)
         }
-      }, 800)
+      }
+      
+      scrollHomeToBottom()
+      // Retry after short delay to ensure DOM is ready
+      setTimeout(scrollHomeToBottom, 100)
+      
+    } else {
+      // Other pages: use window scroll (existing solution for team/research)
+      const scrollToBottom = () => {
+        // Get all possible height measurements
+        const body = document.body
+        const html = document.documentElement
+        
+        // Calculate the true document height
+        const documentHeight = Math.max(
+          body.scrollHeight,
+          body.offsetHeight,
+          html.clientHeight,
+          html.scrollHeight,
+          html.offsetHeight
+        )
+        
+        // Calculate viewport height
+        const viewportHeight = Math.max(
+          window.innerHeight,
+          html.clientHeight
+        )
+        
+        // Calculate the maximum scroll position
+        const maxScrollPosition = documentHeight - viewportHeight
+        
+        console.log('Scrolling to bottom:', { documentHeight, viewportHeight, maxScrollPosition })
+        
+        // First attempt: Scroll to calculated maximum
+        window.scrollTo({
+          top: maxScrollPosition,
+          behavior: 'smooth'
+        })
+        
+        // Backup: After smooth scroll completes, ensure we're at absolute bottom
+        setTimeout(() => {
+          // Recalculate in case of dynamic content
+          const finalDocHeight = Math.max(
+            document.body.scrollHeight,
+            document.documentElement.scrollHeight
+          )
+          const finalMaxScroll = finalDocHeight - window.innerHeight
+          
+          // Force scroll to absolute maximum if not there already
+          if (window.scrollY < finalMaxScroll - 10) {
+            window.scrollTo(0, finalMaxScroll)
+          }
+        }, 800)
+      }
+      
+      // Execute immediately
+      scrollToBottom()
+      
+      // Backup execution after short delay to handle any DOM updates
+      setTimeout(scrollToBottom, 100)
     }
-    
-    // Execute immediately
-    scrollToBottom()
-    
-    // Backup execution after short delay to handle any DOM updates
-    setTimeout(scrollToBottom, 100)
   }
   
   return (
