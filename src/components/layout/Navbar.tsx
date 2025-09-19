@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
-import davidsonLogo from '../../../public/davidson-lab-logo-icon.png'
+import davidsonLogo from '../../../public/davidson-lab-logo-icon-new.png'
 import sunnybrookLogo from '../../../public/sunnybrook-logo-new.png'
 
 export default function Navbar() {
