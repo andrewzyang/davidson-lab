@@ -6,9 +6,9 @@ export const metadata: Metadata = {
   title: "Davidson's Neurosurgical Psychiatry Lab",
   description: 'Pioneering research at the intersection of neurosurgery and psychiatry at Sunnybrook Health Sciences Centre',
   icons: {
-    icon: '/davidson-lab-logo-icon.png',
-    shortcut: '/davidson-lab-logo-icon.png',
-    apple: '/davidson-lab-logo-icon.png',
+    icon: '/davidson-lab-logo-icon-new.png',
+    shortcut: '/davidson-lab-logo-icon-new.png',
+    apple: '/davidson-lab-logo-icon-new.png',
   },
 }
 

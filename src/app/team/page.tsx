@@ -2,6 +2,7 @@
 
 import TeamMember from '@/components/team/TeamMember'
 import { teamMembers, getTeamByCategory } from '@/data/teamMembers'
+import Footer from '@/components/layout/Footer'
 import { useEffect, useState } from 'react'
 
 export default function Team() {
@@ -19,8 +20,9 @@ export default function Team() {
   }, [])
 
   return (
-    <div className="min-h-screen pt-32 pb-16 px-4 relative z-10">
-      <div className="max-w-7xl mx-auto">
+    <div className="snap-container h-screen overflow-y-scroll absolute inset-0">
+      <div className="min-h-screen pt-32 pb-16 px-4 relative z-10">
+        <div className="max-w-7xl mx-auto">
         <h1 className={`text-4xl md:text-5xl lg:text-6xl font-arial-nova font-bold leading-tight text-center mb-16 transition-all duration-1000 ${
           mounted && visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
@@ -162,7 +164,9 @@ export default function Team() {
             ))}
           </div>
         </section>
+        </div>
       </div>
+      <Footer />
     </div>
   )
 }
