@@ -29,12 +29,13 @@ export default function Navbar() {
       const contactElement = document.getElementById('contact')
       if (contactElement) {
         console.log(`Contact element found on attempt ${attempt}`)
-        // Calculate the exact position and scroll to it
-        const elementPosition = contactElement.getBoundingClientRect().top
-        const offsetPosition = elementPosition + window.pageYOffset - 80 // 80px offset for navbar
+        // Get the absolute position of the element
+        const rect = contactElement.getBoundingClientRect()
+        const absoluteTop = rect.top + window.scrollY
         
+        // Scroll to the element with a small offset for the navbar
         window.scrollTo({
-          top: offsetPosition,
+          top: absoluteTop - 80,
           behavior: 'smooth'
         })
         return true
