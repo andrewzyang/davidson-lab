@@ -6,10 +6,10 @@ import { useEffect, useState, useRef } from 'react'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import { getAssetPath } from '@/utils/basePath'
 
-// Use AnimatedBackground as fallback for static export
-const SplineScene = dynamic(() => import('@/components/AnimatedBackground'), { 
+// Use SplineClient for proper client-side loading
+const SplineScene = dynamic(() => import('@/components/SplineClient'), { 
   ssr: false,
-  loading: () => <div className="absolute inset-0 flex items-center justify-center z-0 bg-gradient-to-br from-gray-50 to-gray-100"><div className="text-gray-400">Loading...</div></div>
+  loading: () => <div className="absolute inset-0 flex items-center justify-center z-0 bg-gradient-to-br from-gray-50 to-gray-100"><div className="text-gray-400">Loading 3D Scene...</div></div>
 })
 
 export default function Home() {
