@@ -68,9 +68,14 @@ body {
   scroll-behavior: smooth;
 }
 
-/* Prevent hash scroll jumping */
+/* Prevent hash scroll jumping and account for fixed navbar */
 html {
-  scroll-padding-top: 0;
+  scroll-padding-top: 120px;
+}
+
+/* Ensure smooth scrolling works on all browsers */
+* {
+  scroll-behavior: smooth;
 }
 
 a {

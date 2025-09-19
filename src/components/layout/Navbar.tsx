@@ -25,18 +25,36 @@ export default function Navbar() {
   const handleContactClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     
-    // For team and research pages, ensure we scroll to the footer on current page
-    const contactElement = document.getElementById('contact')
-    if (contactElement) {
-      contactElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    } else {
-      // Fallback: if element not found, try after a brief delay
-      setTimeout(() => {
-        const delayedElement = document.getElementById('contact')
-        if (delayedElement) {
-          delayedElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }
-      }, 100)
+    const scrollToContact = (attempt = 1) => {
+      const contactElement = document.getElementById('contact')
+      if (contactElement) {
+        console.log(`Contact element found on attempt ${attempt}`)
+        contactElement.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start',
+          inline: 'nearest'
+        })
+        return true
+      }
+      return false
+    }
+    
+    // Try immediately first
+    if (!scrollToContact(1)) {
+      console.log('Contact element not found, trying with delays...')
+      
+      // Try with increasing delays up to 3 times
+      const retryAttempts = [100, 250, 500]
+      retryAttempts.forEach((delay, index) => {
+        setTimeout(() => {
+          if (!scrollToContact(index + 2)) {
+            console.warn(`Contact element not found after ${delay}ms delay`)
+            if (index === retryAttempts.length - 1) {
+              console.error('Failed to find contact element after all retry attempts')
+            }
+          }
+        }, delay)
+      })
     }
   }
   
